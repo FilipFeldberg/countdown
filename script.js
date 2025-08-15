@@ -1,8 +1,8 @@
 function updateCountdown() {
     const now = new Date();
-    
-    const targetTime = new Date("2024-11-16T16:40:00+01:00");
-    
+
+    const targetTime = new Date("2025-11-16T16:40:00+01:00");
+
     const difference = targetTime - now;
 
     if (difference <= 0) {
