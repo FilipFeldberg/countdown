@@ -21,9 +21,9 @@ The application is hosted on a VPS server with the following configuration:
 - **Domain**: chiara-comes-home.hercules-it.com
 - **Web root**: `/var/www/countdown`
 
-### Nginx Configuration
+### Server Configuration
 
-The nginx configuration is included in this repository (`nginx.conf`) and supports HTTPS with:
+The server supports HTTPS with:
 
 - **Let's Encrypt SSL certificate** with automatic renewal
 - **Automatic HTTP → HTTPS redirect** for all traffic
@@ -31,18 +31,16 @@ The nginx configuration is included in this repository (`nginx.conf`) and suppor
 - **Static asset caching** (1 year expiry)
 - **Modern SSL configuration** managed by Certbot
 
-#### Initial Setup:
+#### Server Setup:
 ```bash
 # Install Certbot
 sudo apt install certbot python3-certbot-nginx
 
-# Deploy basic nginx configuration
-sudo cp nginx.conf /etc/nginx/sites-available/countdown
-sudo ln -s /etc/nginx/sites-available/countdown /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
+# Create basic nginx configuration for the domain
+# (Configuration details not included in repository for security)
 
 # Obtain SSL certificate (automatic nginx configuration)
-sudo certbot --nginx -d chiara-comes-home.hercules-it.com --agree-tos --email your-email@domain.com --redirect
+sudo certbot --nginx -d your-domain.com --agree-tos --email your-email@domain.com --redirect
 ```
 
 #### Certificate Renewal:
@@ -60,7 +58,6 @@ Simply open `index.html` in any modern web browser to run the countdown locally.
 - `index.html` - Main HTML structure
 - `style.css` - Responsive CSS with glassmorphism design
 - `script.js` - JavaScript countdown logic with Oslo timezone support
-- `nginx.conf` - Production nginx configuration
 
 ## Target Date
 
