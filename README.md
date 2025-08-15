@@ -11,7 +11,7 @@ A simple, beautiful countdown web application that shows the time remaining unti
 
 ## Deployment
 
-The application is deployed at: **http://chiara-comes-home.hercules-it.com** or **https://chiara-comes-home.hercules-it.com**
+The application is deployed at: **https://chiara-comes-home.hercules-it.com** (with automatic HTTP → HTTPS redirect)
 
 ### Server Setup
 
@@ -23,19 +23,32 @@ The application is hosted on a VPS server with the following configuration:
 
 ### Nginx Configuration
 
-The nginx configuration is included in this repository (`nginx.conf`) and supports both HTTP and HTTPS with:
+The nginx configuration is included in this repository (`nginx.conf`) and supports HTTPS with:
 
-- Self-signed SSL certificate for HTTPS support
-- Security headers (X-Frame-Options, X-XSS-Protection, etc.)
-- Static asset caching (1 year expiry)
-- HTTP/2 support
+- **Let's Encrypt SSL certificate** with automatic renewal
+- **Automatic HTTP → HTTPS redirect** for all traffic
+- **Security headers** (X-Frame-Options, X-XSS-Protection, etc.)
+- **Static asset caching** (1 year expiry)
+- **Modern SSL configuration** managed by Certbot
 
-To deploy nginx configuration:
+#### Initial Setup:
 ```bash
+# Install Certbot
+sudo apt install certbot python3-certbot-nginx
+
+# Deploy basic nginx configuration
 sudo cp nginx.conf /etc/nginx/sites-available/countdown
 sudo ln -s /etc/nginx/sites-available/countdown /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
+sudo nginx -t && sudo systemctl reload nginx
+
+# Obtain SSL certificate (automatic nginx configuration)
+sudo certbot --nginx -d chiara-comes-home.hercules-it.com --agree-tos --email your-email@domain.com --redirect
+```
+
+#### Certificate Renewal:
+Certbot automatically sets up a cron job for certificate renewal. Test with:
+```bash
+sudo certbot renew --dry-run
 ```
 
 ## Local Development
